@@ -1,0 +1,93 @@
+<h1>Monthly mortgage cost</h1>
+
+<div class="row">
+  <div class="col-md-8">
+    <p>
+      This tool allows you to work out roughly what mortgages would be affordable to you. Enter your current monthly rent to get an idea of what price of property you could afford to purchase if you have a 10% deposit.
+    </p>
+    <p>
+      Amounts are calculated against two different interest rates. This is to show what a rough monthly cost might be, alongside a higher cost if interest rates were to rise by 3%.
+    </p>
+
+
+<form action="/", method="GET" class="form-inline">
+  <div>
+    <div class="form-group">
+      <%= label_tag :rent, 'Monthly Rent?', class: 'sr-only' %>
+      <div class="input-group">
+        <div class="input-group-addon">£</div>
+        <%= number_field_tag :rent, params[:rent], min: 0, class: 'form-control', placeholder: 'Monthly Rent' %>
+      </div>
+      <%= button_tag 'Compare rent cost', class: 'btn btn-primary' %>
+    </div>
+  </div>
+
+</form>
+
+  </div>
+  <div class="col-md-4">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th colspan="2">Table Key</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Same or less than current rent</td>
+          <td class="success">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        </tr>
+        <tr>
+          <td>Up to £150 more than current rent</td>
+          <td class="warning"></td>
+        </tr>
+        <tr>
+          <td>More than £150 above your current rent</td>
+          <td class="danger"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Price of Property</th>
+          <th>Deposit 10%</th>
+          <th>Interest Rate</th>
+          <th>10 Years</th>
+          <th>15 Years</th>
+          <th>20 Years</th>
+          <th class="twenty-five">25 Years</th>
+          <th>30 Years</th>
+          <th>35 Years</th>
+          <th>40 Years</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @results.each do |price| %>
+          <% price.each_with_index do |calculator, index| %>
+            <tr class="<%= 'first' if index.zero? %>">
+              <% if index.zero? %>
+                <td rowspan="2"><%= number_to_currency calculator.price,   precision: 0 %></td>
+                <td rowspan="2"><%= number_to_currency calculator.deposit, precision: 0 %></td>
+              <% end %>
+              <td><%= calculator.annual_interest_rate %>%</td>
+              <% calculator.monthly.values.each_with_index do |amount, index| %>
+                <%= td_with_colour amount, index %>
+                  <%= number_to_currency amount %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
