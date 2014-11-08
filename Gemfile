@@ -18,3 +18,4 @@ gem 'spring',        group: :development
 gem "rspec-rails", ">= 2.0.1", group: [:development, :test]
 
 gem 'refinance'
+gem 'rails_12factor', group: :production
