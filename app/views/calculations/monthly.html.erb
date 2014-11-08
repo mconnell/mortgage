@@ -3,22 +3,40 @@
 <div class="row">
   <div class="col-md-8">
     <p>
-      This tool allows you to work out roughly what mortgages would be affordable to you. Enter your current monthly rent to get an idea of what price of property you could afford to purchase if you have a 10% deposit.
+      This tool allows you to work out roughly what mortgages would be affordable to you. Enter your current monthly rent to get an idea of what price of property you could afford to purchase.
     </p>
     <p>
       Amounts are calculated against two different interest rates. This is to show what a rough monthly cost might be, alongside a higher cost if interest rates were to rise by 3%.
     </p>
 
 
-<form action="/", method="GET" class="form-inline">
-  <div>
-    <div class="form-group">
-      <%= label_tag :rent, 'Monthly Rent?', class: 'sr-only' %>
-      <div class="input-group">
-        <div class="input-group-addon">£</div>
-        <%= number_field_tag :rent, params[:rent], min: 0, class: 'form-control', placeholder: 'Monthly Rent' %>
+<form action="/", method="GET">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <%= label_tag :rent, 'Monthly rent?' %>
+        <div class="input-group">
+          <div class="input-group-addon">£</div>
+          <%= number_field_tag :rent, params[:rent], min: 0, class: 'form-control', placeholder: 'Monthly Rent' %>
+        </div>
       </div>
-      <%= button_tag 'Compare rent cost', class: 'btn btn-primary' %>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <%= label_tag :deposit_percent, 'Deposit (%)' %>
+        <div class="input-group">
+          <div class="input-group-addon">%</div>
+          <%= number_field_tag :deposit_percent, params[:deposit_percent] || 10, min: 5, max: 99, class: 'form-control', placeholder: 'Deposit' %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <div class="input-group">
+          <label>&nbsp;</label>
+          <%= button_tag 'Compare rent cost', class: 'btn btn-primary' %>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -57,7 +75,7 @@
       <thead>
         <tr>
           <th>Price of Property</th>
-          <th>Deposit 10%</th>
+          <th>Deposit <%= @deposit %>%</th>
           <th>Interest Rate</th>
           <th>10 Years</th>
           <th>15 Years</th>
